@@ -1,7 +1,12 @@
 package com.GamyA.expense_tracker.Expenses;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.time.YearMonth;
+
 
 @Entity
 @Table(name = "Expenses")
@@ -11,23 +16,32 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
+    @NotBlank(message = "You must enter a username")
     private String username;
 
     private String category;
 
-    private double amount;
+    @NotNull(message = "amount is required")
+    @Min(value = 0, message = "amount must be positive")
+    private Double amount;
 
+    @NotNull(message = "month must not be blank")
+    @Pattern(regexp = "^(January|February|March|April|May|June|July|August|September|October|November|December)-\\d{4}$",
+            message = "Month must be in the format 'Month-YYYY', e.g., 'April-2025'")
     private String month;
 
+    public Expense() {
+    }
+
     @Autowired
-    public Expense(String Username, String Category, double Amount, String month){
-        this.username = Username;
-        if (Category == null){
+    public Expense(String username, String category, Double amount, String month){
+        this.username = username;
+        if (category == null){
             this.category = "No category";
         }else{
-            this.category = Category;
+            this.category = category;
         }
-        this.amount = Amount;
+        this.amount = amount;
         this.month =month;
     }
 
@@ -43,7 +57,7 @@ public class Expense {
         return category;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -52,15 +66,15 @@ public class Expense {
     }
 
     public void setUsername(String username) {
-        username = username;
+        this.username = username;
     }
 
     public void setCategory(String category) {
         this.category = category;
     }
 
-    public void setAmount(double amount) {
-        amount = amount;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public void setMonth(String month) {

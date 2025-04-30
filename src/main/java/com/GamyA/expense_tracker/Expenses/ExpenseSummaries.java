@@ -1,5 +1,9 @@
 package com.GamyA.expense_tracker.Expenses;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+
 public class ExpenseSummaries {
 
     public static class ByCategory {
@@ -8,9 +12,12 @@ public class ExpenseSummaries {
         private Double avgAmount;
 
         public ByCategory(String category, Double totalAmount, Double avgAmount) {
+
+            double roundedAvg = new BigDecimal(avgAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
             this.category = category;
             this.totalAmount = totalAmount;
-            this.avgAmount = avgAmount;
+            this.avgAmount = roundedAvg;
         }
 
         public Double getAvgAmount() {
@@ -44,9 +51,12 @@ public class ExpenseSummaries {
         private Double avgAmount;
 
         public ByMonth(String date, Double totalAmount, Double avgAmount) {
+
+            double roundedAvg = new BigDecimal(avgAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
             this.Month = date;
             this.totalAmount = totalAmount;
-            this.avgAmount = avgAmount;
+            this.avgAmount = roundedAvg;
         }
 
         public String getMonth() {
@@ -76,15 +86,18 @@ public class ExpenseSummaries {
 
     public static class ByCategoryAndMonth {
         private String category;
-        private String Month;
+        private String month;
         private Double totalAmount;
         private Double avgAmount;
 
         public ByCategoryAndMonth(String category, String month, Double totalAmount, Double avgAmount) {
+
+            double roundedAvg = new BigDecimal(avgAmount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
             this.category = category;
-            this.Month = month;
+            this.month = month;
             this.totalAmount = totalAmount;
-            this.avgAmount = avgAmount;
+            this.avgAmount = roundedAvg;
         }
 
         public String getCategory() {
@@ -96,11 +109,11 @@ public class ExpenseSummaries {
         }
 
         public String getMonth() {
-            return Month;
+            return month;
         }
 
         public void setMonth(String month) {
-            this.Month = month;
+            this.month = month;
         }
 
         public Double getTotalAmount() {

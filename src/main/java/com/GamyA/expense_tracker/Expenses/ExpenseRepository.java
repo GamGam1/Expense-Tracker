@@ -10,23 +10,25 @@ public interface ExpenseRepository
 
     List<Expense> findByUsername(String Username);
 
-    @Query("SELECT e FROM Expenses e WHERE e.username = ?1 " +
-            "AND (?2 IS NULL OR category = ?2) AND (?3 IS NULL OR month = ?3)")
-    List<Expense> findByUsernameCategoryMonth(String Username, String Category, String Month);
+    @Query("SELECT e FROM Expense e WHERE e.username = ?1 " +
+            "AND (?2 IS NULL OR e.category IN ?2) AND (?3 IS NULL OR e.month IN ?3)")
+    List<Expense> findByUsernameCategoryMonth(String Username, List<String> Category, List<String> Month);
 
-    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$CategoryAndMonth(e.category, e.month, SUM(e.amount), AVG(e.total))" +
+    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$ByCategoryAndMonth(e.category, e.month, SUM(e.amount), AVG(e.amount))" +
             " FROM Expense e  WHERE e.username = ?1 GROUP BY  e.category, e.month")
-    List<ExpenseSummaries.ByCategoryAndMonth> AggSummaryMonthCategory(String Username);
+    List<ExpenseSummaries.ByCategoryAndMonth> aggSummaryCategoryMonth(String Username);
 
-    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$Category(e.category, SUM(e.total), AVG(e.amount)) " +
+    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$ByCategory(e.category, SUM(e.amount), AVG(e.amount)) " +
             "FROM Expense e WHERE e.username = ?1 GROUP BY  e.category")
-    List<ExpenseSummaries.ByCategory> AggSummaryCategory(String Username);
+    List<ExpenseSummaries.ByCategory> aggSummaryCategory(String Username);
 
-    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$Month(e.month, SUM(e.total), AVG(e.amount)) " +
+    @Query("SELECT new com.GamyA.expense_tracker.Expenses.ExpenseSummaries$ByMonth(e.month, SUM(e.amount), AVG(e.amount)) " +
             "FROM Expense e WHERE e.username = ?1 GROUP BY e.month")
-    List<ExpenseSummaries.ByMonth> AggSummaryMonth(String Username);
+    List<ExpenseSummaries.ByMonth> aggSummaryMonth(String Username);
 
-    void deleteByCategory(String Category);
+    List<Expense> findByCategoryInAndUsername(List<String> category, String username);
+
+    void deleteByCategoryInAndUsername(List<String> category, String username);
 
 
 }
