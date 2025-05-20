@@ -9,3 +9,4 @@
 .idea/
 /expense-tracker.iml
 /target/
+src/main/resources/application.properties
