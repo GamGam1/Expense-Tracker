@@ -120,10 +120,10 @@ The `UpdateExpense` class, helps with data transferring when it comes to updatin
 
 ### DELETE
 
-* `localhost:8080/api/single/{id}`
+* `localhost:8080/api/deleteID/{id}`
   * given an `id` it will delete that expense from the database
   * will throw an error if `id` is not found in database   
-* `localhost:8080/api/delete/{user}?category=...&category=...`
+* `localhost:8080/api/deleteCategory/{user}?category=...&category=...`
   * given a `username` and a list of `category` values it will delete all expenses with `category` values that are in the list
   * will throw an error if list is not provided or `username` or `cateogry` not in the database   
 

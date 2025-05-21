@@ -17,11 +17,6 @@ public class ExpenseTrackerController {
         ExpenseTrackerController.expenseService = expenseService;
     }
 
-    @GetMapping(value = "/")
-    public String getPage(){
-        return "plz work";
-    }
-
     @GetMapping(value="/api/{user}")
     public List<Expense> getUserExpenses(@PathVariable String user){
 
@@ -96,12 +91,12 @@ public class ExpenseTrackerController {
         expenseService.updateExpense(newExpense, oldExpense);
     }
 
-    @DeleteMapping(value = "/api/delete/single/{id}")
+    @DeleteMapping(value = "/api/deleteID/{id}")
     public void deleteExpense(@PathVariable long id){
         expenseService.deleteExpense(id);
     }
 
-    @DeleteMapping(value = "/api/delete/{user}")
+    @DeleteMapping(value = "/api/deleteCategory/{user}")
     public void deleteExpenseByCategory(@PathVariable String user,@RequestParam List<String> category){
         expenseService.deleteByCategoryAndUser(category,user);
     }
